@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 
 import './App.css';
 import {ZoomMtg} from "@zoomus/websdk";
@@ -16,7 +16,25 @@ zoomMeetingSDK.style.display = 'none';
 
 function App() {
   //TODO need to implement a router and move this to a zoom page
+  const [advice, setAdvice] = useState("");
 
+  useEffect(() => {
+    const url = "https://api.adviceslip.com/advice";
+
+    const grabDataFromBackend = async() => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setAdvice(json.slip.advice);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+
+    console.log(grabDataFromBackend());
+  }, []);
+
+  console.log(advice);
   // setup your signature endpoint here: https://github.com/zoom/meetingsdk-sample-signature-node.js
   var signatureEndpoint = 'https://zoomsignaturegeneratorsdmay27.herokuapp.com/'
   var apiKey = 'e5YnXJxrRyuFRsR7Mn7whg'
@@ -80,15 +98,32 @@ function App() {
     })
   }
 
+  //Getting JSON data here.
+  //Got test file here: https://support.oneskyapp.com/hc/en-us/articles/208047697-JSON-sample-files
+  const jsonLocal = require("./resources/example_2.json");
+  // console.log(jsonLocal);
+
+
+
   return (
       <div className="App">
         <main>
           <h1>Zoom Meeting SDK Sample React</h1>
 
           <div>
-          <div className="card" onClick={getSignature}>
-            Join Meeting
-          </div>
+            <div className="card" onClick={getSignature}>
+              Join Meeting
+            </div>
+            <div>
+              <p>Here is some data from a JSON!</p>
+              <p>
+                This is question 1 for the Maths Quiz!
+              </p>
+              <p>
+                {/*We can just query the object like normal since JSON is natively supported by javscript*/}
+                {jsonLocal.quiz.maths.q1.question}
+              </p>
+            </div>
           </div>
         </main>
       </div>
