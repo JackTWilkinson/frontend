@@ -24,8 +24,10 @@ function App() {
     const grabDataFromBackend = async() => {
       try {
         const response = await fetch(url);
-        const json = await response.json();
-        setAdvice(json.slip.advice);
+        await response.json().then((data) => {
+          // I've assigned the data within .then in order to assure promise resolution
+          setAdvice(data.slip.advice);
+        });
       } catch (error) {
         console.log("error", error);
       }
@@ -34,7 +36,6 @@ function App() {
     console.log(grabDataFromBackend());
   }, []);
 
-  console.log(advice);
   // setup your signature endpoint here: https://github.com/zoom/meetingsdk-sample-signature-node.js
   var signatureEndpoint = 'https://zoomsignaturegeneratorsdmay27.herokuapp.com/'
   var apiKey = 'e5YnXJxrRyuFRsR7Mn7whg'
@@ -98,12 +99,10 @@ function App() {
     })
   }
 
-  //Getting JSON data here.
+  //Getting JSON data here. Returns an empty object, likely not a good solution since we can query from the backend dynamically as opposed to importing an requiring a file
   //Got test file here: https://support.oneskyapp.com/hc/en-us/articles/208047697-JSON-sample-files
-  const jsonLocal = require("./resources/example_2.json");
-  // console.log(jsonLocal);
-
-
+  // const jsonLocal = require("./resources/example_2.json");
+  // console.log("Local json: " + jsonLocal);
 
   return (
       <div className="App">
@@ -117,11 +116,11 @@ function App() {
             <div>
               <p>Here is some data from a JSON!</p>
               <p>
-                This is question 1 for the Maths Quiz!
+                This is some advice queried from a website!
               </p>
               <p>
                 {/*We can just query the object like normal since JSON is natively supported by javscript*/}
-                {jsonLocal.quiz.maths.q1.question}
+                {advice}
               </p>
             </div>
           </div>
