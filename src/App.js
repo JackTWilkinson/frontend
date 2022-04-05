@@ -1,8 +1,5 @@
-import {React, useEffect, useState} from 'react';
-
-import './App.css';
+import './resources/App.css'
 import {ZoomMtg} from "@zoomus/websdk";
-import {getSignature} from "./Zoom";
 import {Link, Route, Router, Routes} from "react-router-dom";
 import {Calendar} from "./pages/Calendar";
 import {Home} from "./pages/Home";

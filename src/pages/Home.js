@@ -1,6 +1,6 @@
-import {getSignature} from "../Zoom";
+import {getSignature} from "../utils/Zoom";
 import {Link} from "react-router-dom";
-import {React, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 export function Home() {
 
